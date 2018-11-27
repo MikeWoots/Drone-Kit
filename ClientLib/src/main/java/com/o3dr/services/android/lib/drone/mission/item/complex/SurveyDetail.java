@@ -3,6 +3,8 @@ package com.o3dr.services.android.lib.drone.mission.item.complex;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.o3dr.android.client.interfaces.DroneListener;
+
 /**
  * Created by fhuya on 11/7/14.
  */
@@ -100,13 +102,21 @@ public class SurveyDetail implements Parcelable {
     }
 
     public double getLongitudinalFootPrint() {
+        if (DroneListener.debuggingWithoutDrone) {
+            cameraDetail = new CameraDetail(); // FOR DEBUGGING WITHOUT DRONE
+        }
+
         return altitude * cameraDetail.getSensorLongitudinalSize()
                 / cameraDetail.getFocalLength();
     }
 
     public double getGroundResolution() {
+        if (DroneListener.debuggingWithoutDrone) {
+            cameraDetail = new CameraDetail(); // FOR DEBUGGING WITHOUT DRONE
+        }
+
         return ((altitude * cameraDetail.getSensorLateralSize() / cameraDetail.getFocalLength()
-                        * (altitude * cameraDetail.getSensorLongitudinalSize()
+                        *(altitude * cameraDetail.getSensorLongitudinalSize()
                 /  cameraDetail.getFocalLength()) / (cameraDetail.getSensorResolution() * 1000)))
                 / 10000;
     }

@@ -256,7 +256,9 @@ public class MissionApi extends Api {
         if(result != null){
             T updatedItem = MissionItemType.restoreMissionItemFromBundle(result.getData());
             complexItem.copy(updatedItem);
-            return (T) complexItem;
+            // FIXME: THIS PROCESS DOESN'T PASS POINT ELEVATIONS THROUGH FOR SOME REASON. BYPASSING ASSIGNMENT FOR RETURN...
+            // return (T) complexItem;
+            return (T) missionItem;
         }
         else
             return null;
