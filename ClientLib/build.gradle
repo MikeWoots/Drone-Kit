@@ -80,10 +80,6 @@ android {
 
     signingConfigs {
         release {
-//            storeFile file('/home/aerobotics/Tower/android.jks')
-//            storePassword 'A3robotics'
-//            keyAlias 'aeroboticsmissionplannerkey'
-//            keyPassword 'A3robotics'
         }
     }
 
