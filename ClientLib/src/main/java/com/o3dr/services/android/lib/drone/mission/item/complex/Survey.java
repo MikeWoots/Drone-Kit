@@ -34,6 +34,7 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
     private List<LatLong> cameraLocations = new ArrayList<LatLong>();
     private boolean isValid;
     private boolean startCameraBeforeFirstWaypoint;
+    private boolean isMergedConvexSurvey = false;
 
     private String id;
 
@@ -59,6 +60,7 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
         this.cameraLocations = copy2DPointsList(source.cameraLocations);
         this.isValid = source.isValid;
         this.startCameraBeforeFirstWaypoint = source.startCameraBeforeFirstWaypoint;
+        this.isMergedConvexSurvey = source.isMergedConvexSurvey;
     }
 
     private List<LatLong> copy2DPointsList(List<LatLong> copy){
@@ -110,6 +112,14 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
 
     public void setPolygonPoints(List<LatLong> polygonPoints) {
         this.polygonPoints = polygonPoints;
+    }
+
+    public boolean getIsMergedConvexSurvey () {
+        return isMergedConvexSurvey;
+    }
+
+    public void setIsMergedConvexSurvey(boolean in) {
+        this.isMergedConvexSurvey = in;
     }
 
     public List<Double> getPolygonPointAltitudes() { return this.polygonPointAltitudes; }
@@ -221,6 +231,7 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
         result = 31 * result + (cameraLocations != null ? cameraLocations.hashCode() : 0);
         result = 31 * result + (isValid ? 1 : 0);
         result = 31 * result + (startCameraBeforeFirstWaypoint ? 1 : 0);
+        result = 31 * result + (isMergedConvexSurvey ? 1 : 0);
         return result;
     }
 
@@ -235,6 +246,7 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
         dest.writeTypedList(cameraLocations);
         dest.writeByte(isValid ? (byte) 1 : (byte) 0);
         dest.writeByte(startCameraBeforeFirstWaypoint ? (byte) 1: (byte) 0);
+        dest.writeByte(isMergedConvexSurvey? (byte) 1 : (byte) 0);
     }
 
     protected Survey(Parcel in) {
@@ -247,6 +259,7 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
         in.readTypedList(cameraLocations, LatLong.CREATOR);
         this.isValid = in.readByte() != 0;
         this.startCameraBeforeFirstWaypoint = in.readByte() != 0;
+        this.isMergedConvexSurvey = in.readByte() != 0;
     }
 
     @Override

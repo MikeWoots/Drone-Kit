@@ -248,6 +248,12 @@ public class MissionApi extends Api {
      */
     public <T extends MissionItem> T buildMissionItem(MissionItem.ComplexItem<T> complexItem){
         T missionItem = (T) complexItem;
+
+        boolean isMergedConvexSurvey = false;
+        if (complexItem instanceof Survey) {
+            isMergedConvexSurvey = ((Survey) complexItem).getIsMergedConvexSurvey();
+        }
+
         Bundle payload = missionItem.getType().storeMissionItem(missionItem);
         if (payload == null)
             return null;
@@ -258,6 +264,9 @@ public class MissionApi extends Api {
             complexItem.copy(updatedItem);
             // FIXME: THIS PROCESS DOESN'T PASS POINT ELEVATIONS THROUGH FOR SOME REASON. BYPASSING ASSIGNMENT FOR RETURN...
             // return (T) complexItem;
+            if (missionItem instanceof Survey) {
+                ((Survey) missionItem).setIsMergedConvexSurvey(isMergedConvexSurvey);
+            }
             return (T) missionItem;
         }
         else
