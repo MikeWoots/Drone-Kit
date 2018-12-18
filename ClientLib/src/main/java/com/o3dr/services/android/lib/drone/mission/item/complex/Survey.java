@@ -3,6 +3,7 @@ package com.o3dr.services.android.lib.drone.mission.item.complex;
 import android.os.Parcel;
 
 import com.o3dr.services.android.lib.coordinate.LatLong;
+import com.o3dr.services.android.lib.coordinate.LatLongAlt;
 import com.o3dr.services.android.lib.drone.mission.item.MissionItem;
 import com.o3dr.services.android.lib.drone.mission.MissionItemType;
 import com.o3dr.services.android.lib.util.MathUtils;
@@ -28,6 +29,7 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
 
     private double polygonArea;
     private List<LatLong> polygonPoints = new ArrayList<LatLong>();
+    private List<Double> polygonPointAltitudes = new ArrayList<Double>();
     private List<LatLong> gridPoints = new ArrayList<LatLong>();
     private List<LatLong> cameraLocations = new ArrayList<LatLong>();
     private boolean isValid;
@@ -51,17 +53,36 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
     public void copy(Survey source){
         this.surveyDetail = new SurveyDetail(source.surveyDetail);
         this.polygonArea = source.polygonArea;
-        this.polygonPoints = copyPointsList(source.polygonPoints);
-        this.gridPoints = copyPointsList(source.gridPoints);
-        this.cameraLocations = copyPointsList(source.cameraLocations);
+        this.polygonPoints = copy2DPointsList(source.polygonPoints);
+        this.polygonPointAltitudes = copyDoubleList(source.polygonPointAltitudes);
+        this.gridPoints = copy2DPointsList(source.gridPoints);
+        this.cameraLocations = copy2DPointsList(source.cameraLocations);
         this.isValid = source.isValid;
         this.startCameraBeforeFirstWaypoint = source.startCameraBeforeFirstWaypoint;
     }
 
-    private List<LatLong> copyPointsList(List<LatLong> copy){
+    private List<LatLong> copy2DPointsList(List<LatLong> copy){
         final List<LatLong> dest = new ArrayList<>();
         for(LatLong itemCopy : copy){
             dest.add(new LatLong(itemCopy));
+        }
+
+        return dest;
+    }
+
+    private List<LatLongAlt> copy3DPointsList(List<LatLongAlt> copy){
+        final List<LatLongAlt> dest = new ArrayList<>();
+        for(LatLongAlt itemCopy : copy){
+            dest.add(new LatLongAlt(itemCopy));
+        }
+
+        return dest;
+    }
+
+    private List<Double> copyDoubleList(List<Double> copy){
+        final List<Double> dest = new ArrayList<>();
+        for(Double itemCopy : copy){
+            dest.add(new Double(itemCopy));
         }
 
         return dest;
@@ -91,8 +112,14 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
         this.polygonPoints = polygonPoints;
     }
 
+    public List<Double> getPolygonPointAltitudes() { return this.polygonPointAltitudes; }
+
+    public void setPolygonPointAltitudes(List<Double> polygonPointAltitudes) {
+        this.polygonPointAltitudes = polygonPointAltitudes;
+    }
+
     public synchronized List<LatLong> getGridPoints() {
-        return gridPoints;
+        return this.gridPoints;
     }
 
     public synchronized void setGridPoints(List<LatLong> gridPoints) {
@@ -151,6 +178,7 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
                 ", surveyDetail=" + surveyDetail +
                 ", polygonArea=" + polygonArea +
                 ", polygonPoints=" + polygonPoints +
+                ", polygonPointAltitudes=" + polygonPointAltitudes +
                 ", gridPoints=" + gridPoints +
                 ", isValid=" + isValid +
                 ", startCameraBeforeFirstWaypoint=" + startCameraBeforeFirstWaypoint +
@@ -172,6 +200,8 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
             return false;
         if (polygonPoints != null ? !polygonPoints.equals(survey.polygonPoints) : survey.polygonPoints != null)
             return false;
+        if (polygonPointAltitudes != null ? !polygonPointAltitudes.equals(survey.polygonPointAltitudes) : survey.polygonPointAltitudes != null)
+            return false;
         if (gridPoints != null ? !gridPoints.equals(survey.gridPoints) : survey.gridPoints != null)
             return false;
         return !(cameraLocations != null ? !cameraLocations.equals(survey.cameraLocations) : survey.cameraLocations != null);
@@ -186,6 +216,7 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
         temp = Double.doubleToLongBits(polygonArea);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (polygonPoints != null ? polygonPoints.hashCode() : 0);
+        result = 31 * result + (polygonPointAltitudes != null ? polygonPointAltitudes.hashCode() : 0);
         result = 31 * result + (gridPoints != null ? gridPoints.hashCode() : 0);
         result = 31 * result + (cameraLocations != null ? cameraLocations.hashCode() : 0);
         result = 31 * result + (isValid ? 1 : 0);
@@ -199,6 +230,7 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
         dest.writeParcelable(this.surveyDetail, 0);
         dest.writeDouble(this.polygonArea);
         dest.writeTypedList(polygonPoints);
+        dest.writeList(polygonPointAltitudes);
         dest.writeTypedList(gridPoints);
         dest.writeTypedList(cameraLocations);
         dest.writeByte(isValid ? (byte) 1 : (byte) 0);
@@ -210,6 +242,7 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
         this.surveyDetail = in.readParcelable(SurveyDetail.class.getClassLoader());
         this.polygonArea = in.readDouble();
         in.readTypedList(polygonPoints, LatLong.CREATOR);
+        in.readList(polygonPointAltitudes, Double.class.getClassLoader());
         in.readTypedList(gridPoints, LatLong.CREATOR);
         in.readTypedList(cameraLocations, LatLong.CREATOR);
         this.isValid = in.readByte() != 0;

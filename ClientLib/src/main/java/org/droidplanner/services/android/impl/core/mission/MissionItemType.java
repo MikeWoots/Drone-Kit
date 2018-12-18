@@ -75,9 +75,9 @@ public enum MissionItemType {
             case ROI:
                 return new RegionOfInterestImpl(referenceItem);
             case SURVEY:
-                return new SurveyImpl(referenceItem.getMission(), Collections.<LatLong>emptyList());
+                return new SurveyImpl(referenceItem.getMission(), Collections.<LatLong>emptyList(), Collections.<Double>emptyList());
             case SPLINE_SURVEY:
-                return new SplineSurveyImpl(referenceItem.getMission(), Collections.<LatLong>emptyList());
+                return new SplineSurveyImpl(referenceItem.getMission(), Collections.<LatLong>emptyList(), Collections.<Double>emptyList());
             case CYLINDRICAL_SURVEY:
                 return new StructureScannerImpl(referenceItem);
             case SET_SERVO:
