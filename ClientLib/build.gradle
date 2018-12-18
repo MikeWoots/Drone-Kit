@@ -71,17 +71,15 @@ android {
         variant.outputs.all { output ->
             def file = output.outputFile
             if (file != null && file.name.endsWith('.aar')) {
-                output.outputFileName = new File(file.parent, "${PUBLISH_ARTIFACT_ID}.${PUBLISH_VERSION}.aar")
+                def relativeRootDir = output.baseName
+
+                output.outputFileName = new File("$relativeRootDir", "${PUBLISH_ARTIFACT_ID}.${PUBLISH_VERSION}.aar")
             }
         }
     }
 
     signingConfigs {
         release {
-            storeFile file('/home/aerobotics/Tower/android.jks')
-            storePassword 'A3robotics'
-            keyAlias 'aeroboticsmissionplannerkey'
-            keyPassword 'A3robotics'
         }
     }
 

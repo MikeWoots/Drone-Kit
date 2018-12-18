@@ -17,7 +17,7 @@ public class SurveyData {
     private boolean sunny;
 
     public SurveyData() {
-        update(0, (60.0), 70, 70, 10, false, true, true);
+        update(0, (100.0), 70, 75, 12, false, true, false);
     }
 
     public void update(double angle, double altitude, double overlap, double sidelap, double speed,

@@ -16,14 +16,14 @@ public class Survey extends MissionItem implements MissionItem.ComplexItem<Surve
 
     private SurveyDetail surveyDetail = new SurveyDetail();
     {
-        surveyDetail.setAltitude(70);
+        surveyDetail.setAltitude(100);
         surveyDetail.setAngle(180);
         surveyDetail.setOverlap(70);
-        surveyDetail.setSpeed(10);
-        surveyDetail.setSidelap(70);
+        surveyDetail.setSpeed(12);
+        surveyDetail.setSidelap(75);
         surveyDetail.setLockOrientation(false);
         surveyDetail.setSaveable(true);
-        surveyDetail.setSunny(true);
+        surveyDetail.setSunny(false);
     }
 
     private double polygonArea;
