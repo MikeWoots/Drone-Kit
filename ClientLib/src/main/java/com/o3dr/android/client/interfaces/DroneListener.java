@@ -10,4 +10,6 @@ public interface DroneListener {
     void onDroneEvent(String event, Bundle extras);
 
     void onDroneServiceInterrupted(String errorMsg);
+
+    boolean debuggingWithoutDrone = false; // Set to true for debugging without drone
 }

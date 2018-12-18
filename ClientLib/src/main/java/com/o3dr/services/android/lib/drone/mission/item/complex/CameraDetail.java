@@ -18,13 +18,13 @@ public class CameraDetail implements Parcelable {
     private final boolean isInLandscapeOrientation;
 
     public CameraDetail() {
-        name = "Canon SX260";
-        sensorWidth = 6.12;
-        sensorHeight = 4.22;
-        sensorResolution = 12.1;
-        focalLength = 5.0;
-        overlap = 50.0;
-        sidelap = 60.0;
+        name = "Phantom 4 Agri";
+        sensorWidth = 6.17;
+        sensorHeight = 4.55;
+        sensorResolution = 12.4;
+        focalLength = 3.6;
+        overlap = 70.0;
+        sidelap = 75.0;
         isInLandscapeOrientation = true;
     }
 

@@ -21,14 +21,16 @@ import java.util.List;
 public class SurveyImpl extends MissionItemImpl {
 
     public Polygon polygon = new Polygon();
+    private List<Double> polygonAltitudes = new ArrayList<Double>();
     public SurveyData surveyData = new SurveyData();
     public Grid grid;
 
     private boolean startCameraBeforeFirstWaypoint;
 
-    public SurveyImpl(MissionImpl missionImpl, List<LatLong> points) {
+    public SurveyImpl(MissionImpl missionImpl, List<LatLong> points, List<Double> polygonAltitudes) {
         super(missionImpl);
         polygon.addPoints(points);
+        this.polygonAltitudes = polygonAltitudes;
     }
 
     public void update(double angle, double altitude, double overlap, double sidelap, double speed,
@@ -145,4 +147,9 @@ public class SurveyImpl extends MissionItemImpl {
         return MissionItemType.SURVEY;
     }
 
+    public List<Double> getPolygonAltitudes() { return this.polygonAltitudes; }
+
+    public void setPolygonAltitudes(List<Double> alts) {
+        this.polygonAltitudes = alts;
+    }
 }

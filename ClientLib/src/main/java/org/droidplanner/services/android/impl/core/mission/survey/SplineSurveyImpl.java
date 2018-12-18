@@ -12,8 +12,8 @@ import java.util.List;
 
 public class SplineSurveyImpl extends SurveyImpl {
 
-    public SplineSurveyImpl(MissionImpl missionImpl, List<LatLong> points) {
-        super(missionImpl, points);
+    public SplineSurveyImpl(MissionImpl missionImpl, List<LatLong> points, List<Double> pointAltitudes) {
+        super(missionImpl, points, pointAltitudes);
     }
 
     @Override

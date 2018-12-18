@@ -430,4 +430,23 @@ public class MathUtils {
         }
         return length;
     }
+
+    /**
+     * Compute total length of the polyline in meters.
+     *
+     * @param gridPoints    list of lat/long/alt points for the polyline.
+     * @return              length of the polyline in meters.
+     */
+    public static double get3DPolylineLength(List<LatLongAlt> gridPoints) {
+        double length = 0;
+        for (int i = 1; i < gridPoints.size(); i++) {
+            final LatLongAlt to = gridPoints.get(i - 1);
+            if (to == null) {
+                continue;
+            }
+
+            length += getDistance3D(gridPoints.get(i), to);
+        }
+        return length;
+    }
 }
